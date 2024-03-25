@@ -1,70 +1,167 @@
 <div class="max-w-3xl px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 mx-auto">
-  <article class="space-y-3">
+  <article
+    class="space-y-3"
+    itemscope
+    itemtype="https://schema.org/BlogPosting">
     {% for block in section.blocks %}
       {% case block.type %}
         {% when 'article_title' %}
           <a href=" {{ blog.url }}" class="text-base text-neutral-500 hover:text-neutral-800 ">
             {{ blog.title }}</a>
-          <h1 class="text-2xl font-bold md:text-3xl">{{ article.title }}</h1>
+          <h1 class="text-2xl font-bold md:text-3xl" itemprop="headline">{{ article.title }}</h1>
 
         {% when 'article_author' %}
           {% if section.settings.enable_author %}
-            <small class="block my-1 font-semibold text-gray-800">{{ article.author | upcase }}</small>
+            <div
+              class="block my-1"
+              itemscope
+              itemtype="https://schema.org/Person">
+              <small class="font-semibold text-gray-800" itemprop="author">{{ article.author | upcase }}</small>
+            </div>
           {% endif %}
         {% when 'article_published_date' %}
           {% if section.settings.enable_published_date %}
-            <time class="my-1 block text-xs text-gray-500" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+            <time
+              itemprop="datePublished dateCreated"
+              class="my-1 block text-xs text-gray-500"
+              datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
               {{ article.published_at | date: format: 'on_date' }}</time>
           {% endif %}
 
-
         {% when 'featured_image' %}
-          {% if article.image != blank %}
-            <img
-              src="{{ article.image | image_url: width: 672, height: 420}}"
-              width="672"
-              height="400"
-              class="w-full rounded-lg object-cover object-center"
-              alt=" {{ article.image.alt }}">
-          {% else %}
-            {% assign placeholder_image = 'lifestyle-2' %}
-            {{ placeholder_image | placeholder_svg_tag: 'w-full object-cover object-center p-5 bg-sky-100 rounded-lg ' }}
-          {% endif %}
+          <div itemprop="image">
+            {% if article.image != blank %}
+              <img
+                src="{{ article.image | image_url: width: 672, height: 420}}"
+                width="672"
+                height="400"
+                class="w-full rounded-lg object-cover object-center"
+                alt=" {{ article.image.alt }}">
+            {% else %}
+              {% assign placeholder_image = 'lifestyle-2' %}
+              {{ placeholder_image | placeholder_svg_tag: 'w-full object-cover object-center p-5 bg-sky-100 rounded-lg ' }}
+            {% endif %}
+          </div>
+
         {% when 'article_content' %}
-          <div class=" text-lg text-gray-800">
+          <div class="text-lg text-gray-800" itemprop="articleBody">
             {{ article.content }}</div>
           {% else %}
       {% endcase %}
     {% endfor %}
   </article>
   {% if blog.comments_enabled? %}
-    <div id="comments" class="my-8 text-neutral-500">
+    <div id="comments" class="my-8 text-neutral-500 ">
       {% if article.comments_count > 0 %}
+        <div class="w-full">
+          <h2 class="text-lg mb-4 font-medium text-black">
+            See what people are saying
+          </h2>
+          <div class="space-y-4">
+            {% paginate article.comments by 5 %}
+              {% for comment in article.comments %}
+                <div class="border-2 border-gry-200 p-4 rounded-lg">
+                  <span class="comment-author text-black">
+                    {{ comment.author }}</span>
+                  <span class="text-xs text-gray-400">
+                    {{ comment.created_at | date: '%B %d, %Y' }}</span>
+                  <p class="text-sm">
+                    {{ comment.content }}</p>
+                </div>
+              {% endfor %}
+              {% if paginate.pages > 1 %}
+                {{ paginate | default_pagination }}
+              {% endif %}
+            {% endpaginate %}
+          </div>
+
+        </div>
       {% else %}
         There are no comments for this article.
       {% endif %}
     </div>
-    <div id="comment_form" class="">
+    <div id="comment_form" class="border-t-2 border-gray-100 pt-8">
       {% form 'new_comment'
         , article %}
-        <div class="flex-1 mx-auto items-center justify-center">
-          <div class="px-1 md:flex mb-3">
-            <div class="px-3md:w-1/2">
-              <div class="sm:col-span-3">
-                <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
-                <div class="mt-2">
-                  <input
-                    type="text"
-                    name="first-name"
-                    id="first-name"
-                    autocomplete="given-name"
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        <div class="grid gap-4">
+          {% if form.errors %}
+            <div class="bg-red-50 border border-red-200 text-sm text-red-800 rounded-lg p-4 " role="alert">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  {% render 'icon-failed' %}
+                </div>
+                <div class="ms-4">
+                  <h3 class="text-sm font-semibold">
+                    Oh no! Your comment was not posted
+                  </h3>
+                  <div class="mt-2 text-sm text-red-700 ">
+                    <ul class="list-disc space-y-1 ps-5">
+                      {% for error in form.errors %}
+                        <li>
+                          <span>
+                            {{ form.errors.messages[error] | capitalize }}</span>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="px-3md:w-1/2"></div>
+          {% elsif form.posted_successfully? %}
+            <div class="bg-teal-50 border  border-teal-200 flex items-center text-sm text-teal-800 rounded-lg p-4 flex" role="alert">
+              {% render 'icon-success' %}
+              <span class="inline-block pl-2">
+                Comment is posted successfully</span>
+
+            </div>
+
+          {% endif %}
+          <!-- Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="comment_author" class="block mb-2 text-sm text-gray-700 font-medium ">Name</label>
+              <input
+                type="text"
+                name="comment[author]"
+                id="comment_author"
+                class="py-3 px-4 block w-full border-2 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none "
+                placeholder="Name"
+                required>
+            </div>
+            <div>
+              <label for="comment_email" class="block mb-2 text-sm text-gray-700 font-medium ">Email</label>
+              <input
+                type="email"
+                name="comment[email]"
+                id="comment_email"
+                autocomplete="email"
+                class="py-3 px-4 block w-full border-2 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none  "
+                placeholder="Email"
+                required>
+            </div>
+          </div>
+          <!-- End Grid -->
+
+          <div>
+            <label for="comment_content" class="block mb-2 text-sm text-gray-700 font-medium ">Comment</label>
+            <textarea
+              type="text"
+              id="comment_content"
+              name="comment[body]"
+              rows="4"
+              class="py-3 px-4 block w-full border-2 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none "
+              placeholder="Comment"></textarea>
           </div>
         </div>
+        <!-- End Grid -->
+
+        <div class="mt-4 grid">
+          <input
+            type="submit"
+            class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none "
+            value="Post Comment">
+        </div>
+
       {% endform %}
     </div>
   {% endif %}
