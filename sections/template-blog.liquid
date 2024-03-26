@@ -1,23 +1,54 @@
-{% paginate blog.articles by section.settings.number_of_blog_posts %}
-  {% for article in blog.articles %}
-    <div>
-      {% if article.image %}
-        <img
-          src="{{ article.image |  image_url: width:240, height:240  }}"
-          alt="{{ article.image.alt }}"
-          width="240"
-          height="240">
-      {% else %}
-        {{ 'image' | placeholder_svg_tag: 'w-20' }}
-      {% endif %}
-      <h1>{{ article.title }}</h1>
-      {% if article.excerpt.size > 0 %}
-      {% else %}
-        <p>{{ article.content | strip_html | truncatewords: 15 }}</p>
-      {% endif %}
+<!-- Card Blog -->
+<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+  <!-- Title -->
+  <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
+    <h1 class="text-2xl font-bold md:text-4xl md:leading-tight ">{{ blog.title }}</h1>
+  </div>
+  <!-- End Title -->
+  <!-- Card -->
+  {% paginate blog.articles by section.settings.number_of_blog_posts %}
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for article in blog.articles %}
+        <a class="group flex flex-col h-full border border-gray-200 hover:border-transparent hover:shadow-lg transition-all duration-300 rounded-xl p-5" href="{{ article.url }}">
+          <div class="aspect-w-16 aspect-h-11">
+            {% if article.image %}
+              <img
+                class="w-full object-cover rounded-xl"
+                src="{{ article.image |  image_url: width:374, height:374  }}"
+                alt="{{ article.image.alt }}"
+                width="374"
+                height="374">
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'w-full bg-gray-100 rounded-xl' }}
+            {% endif %}
+          </div>
+          <div class="my-6">
+            <h3 class="text-xl font-semibold text-gray-800 ">
+              {{ article.title | truncatewords: 10 }}
+            </h3>
+
+            {% if article.excerpt.size > 0 %}
+            {% else %}
+              <p class="mt-5 text-gray-600 dark:text-gray-400">{{ article.content | strip_html | truncatewords: 15 }}</p>
+            {% endif %}
+          </div>
+        </a>
+      {% endfor %}
     </div>
-  {% endfor %}
-{% endpaginate %}
+    <div class="mt-12 text-center flex justify-center">
+      {% comment %}
+        Aşağıda ki "pagination: paginate" kısmı React'taki parameter ile data iletmeyi sağlıyor.
+        "pagination" adı isteğe bağlı ne istersek verebiliriz. "paginate" ise iletteiğimiz data objesi.
+        Kaç sayfa olduğu verisini iletiyor..
+      {% endcomment %}
+      {% render 'pagination'
+        , pagination: paginate %}
+
+    </div>
+  {% endpaginate %}
+<!-- End Card -->
+</div>
+<!-- End Card Blog -->
 
 {% schema %}
   {
