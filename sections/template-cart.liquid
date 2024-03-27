@@ -8,7 +8,7 @@
       </a>
     </div>
     <form action="{{ routes.cart_url }}" method="POST">
-      <div class="mt-8 px-4">
+      <div class="my-8 px-4">
         <div class="flow-root">
           <ul role="list" class="-my-6 divide-y divide-gray-200">
             {% for item in cart.items %}
@@ -65,20 +65,19 @@
         </div>
       </div>
 
-      <div class="flex flex-col  items-center justify-between w-full py-4 mt-8 border-t border-gray-200">
-        <div class="w-full my-4 flex flex-col items-end">
-
+      <div class="flex flex-col   items-center justify-between w-full  border-t py-6 border-gray-200">
+        <div class="w-full mb-6 flex flex-col items-end">
           <textarea
             id="cart_notes"
             name="note"
-            class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none md:max-w-sm "
+            class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none "
             rows="3"
             placeholder="Notes..."></textarea>
         </div>
-        <div class="w-full my-4 flex flex-col items-end">
-          <h3 class="text-lg font-medium">Subtotal: {{ cart.total_price | money }}</h3>
+        <div class="w-full  flex flex-col items-end">
+          <h3 class="text-lg font-medium mb-6">Subtotal: {{ cart.total_price | money }}</h3>
           <div class="flex gap-2">
-            <div class="my-2 ">
+            <div class=" ">
               <button
                 type="submit"
                 name="update"
@@ -86,7 +85,7 @@
                 Update
               </button>
             </div>
-            <div class="my-2">
+            <div class="">
               <button
                 type="submit"
                 name="checkout"
@@ -95,8 +94,6 @@
               </button>
             </div>
           </div>
-
-
         </div>
       </div>
     </form>
