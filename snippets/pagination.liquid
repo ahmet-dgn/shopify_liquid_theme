@@ -1,23 +1,24 @@
 {% if pagination.pages > 0 %}
-    <nav class="flex items-center -space-x-px">
-        {% if pagination.previous %}
-              <a href="{{ pagination.previous.url }}" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg border border-gray-200 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none ">
-                    <span class="hidden sm:block">{{ pagination.previous.title}}</span>
-                </a>
-        {% endif %}
-        {% for part in pagination.parts %}
-                {% if part.is_link %}
-                      <a href="{{ part.url }}" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg border border-gray-200 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none ">
-                    <span class="hidden sm:block">{{ part.title}}</span>
-                    </a>
-                    {% else %}
-                    <span class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg border border-gray-200 text-gray-800 bg-gray-100  disabled:opacity-50 disabled:pointer-events-none"> {{ part.title }}</span>
-                {% endif %}
-        {% endfor %}
-        {% if pagination.next %}
-              <a href="{{ pagination.next.url }}" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg border border-gray-200 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none ">
-            <span class="hidden sm:block">{{ pagination.next.title }}</span>
-         </a>
-        {% endif %}
-    </nav>
+  <nav class="flex items-center -space-x-px flex-wrap">
+    {% if pagination.previous %}
+      <a href="{{ pagination.previous.url }}" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg border border-gray-200 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none ">
+        <span class="">{{ pagination.previous.title }}</span>
+      </a>
+    {% endif %}
+    {% for part in pagination.parts %}
+      {% if part.is_link %}
+        <a href="{{ part.url }}" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg border border-gray-200 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100  ">
+          <span class="">{{ part.title }}</span>
+        </a>
+      {% else %}
+        <span class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg border border-gray-200 text-gray-800 bg-gray-100  disabled:opacity-50 disabled:pointer-events-none">
+          {{ part.title }}</span>
+      {% endif %}
+    {% endfor %}
+    {% if pagination.next %}
+      <a href="{{ pagination.next.url }}" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm first:rounded-s-lg last:rounded-e-lg border border-gray-200 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none ">
+        <span class="">{{ pagination.next.title }}</span>
+      </a>
+    {% endif %}
+  </nav>
 {% endif %}
