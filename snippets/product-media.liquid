@@ -6,7 +6,7 @@
       class="size-full object-cover">
 
   {% when 'external_video' %}
-    {{ media | external_video_tag: class: 'size-full object-cover' }}
+    {{ media | external_video_tag: class: 'size-full object-cover h-96' }}
 
   {% when 'video' %}
     {{ media | video_tag: controls: true, autoplay: true, class: 'size-full object-cover' }}
