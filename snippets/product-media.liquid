@@ -9,7 +9,7 @@
     {{ media | external_video_tag: class: 'size-full object-cover' }}
 
   {% when 'video' %}
-    {{ media | video_tag: controls: true, autoplay: true, class: 'size-full object-contain' }}
+    {{ media | video_tag: controls: true, autoplay: true, class: 'size-full object-cover' }}
 
   {% when 'model' %}
     {{ media | model_viewer_tag }}
@@ -17,6 +17,5 @@
   {% else %}
     {{ media | media_tag }}
 
-    {% else %}
 
 {% endcase %}
