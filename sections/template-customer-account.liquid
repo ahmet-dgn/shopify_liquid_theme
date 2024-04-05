@@ -1,6 +1,6 @@
 <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
   <div class="flex items-center justify-between my-5 bg-gray-100 p-4 rounded-lg">
-    <h1 class="text-2xl font-bold md:text-4xl md:leading-tight w-full flex-1">Your Account</h1>
+    <h1 class="text-2xl font-bold md:text-3xl md:leading-tight w-full flex-1">Your Account</h1>
   </div>
 
   <div class="flex flex-col md:flex-row gap-4 p-4">
@@ -36,10 +36,27 @@
                         <span class=" text-xs font-medium gap-x-1.5 py-1.5  ">
                           {{ order.total_price | money }}</span>
                       </div>
-                      <div class="">
-                        <span class="inline-flex justify-center items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-gray-800 text-white ">
+                      <div class=" flex flex-col items-end">
+                        <span class="inline-flex justify-center items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium 
+                      {%  if order.fulfillment_status == 'partial' %} 
+                    bg-yellow-500 text-white
+                      {%  elsif  order.fulfillment_status == 'fulfilled'%} 
+                          bg-blue-600 text-white
+                      {%  elsif  order.fulfillment_status == 'unfulfilled'%} 
+                          bg-gray-900 text-white
+                        {%  else %} 
+                             bg-gray-500 text-white
+                    {% endif %}  ">
                           {{ order.fulfillment_status_label }}</span>
-                        <span class="flex items-center justify-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-gray-100 text-gray-800 mt-1">
+                        <span class="  mt-1 flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium w-fit {% if order.financial_status == "paid" %}
+                            bg-teal-100 text-teal-800
+                            {%  elsif order.financial_status == "unpaid" %} 
+                               bg-yellow-100 text-yellow-800 
+                             {%  elsif order.financial_status == "refunded" %} 
+                            bg-red-100 text-red-800
+                              {%  else %} 
+                              bg-gray-100 text-gray-800 
+                          {% endif %}">
                           {{ order.financial_status_label }}</span>
                       </div>
                     </div>
