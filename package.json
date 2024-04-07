@@ -16,6 +16,7 @@
     "tailwindcss": "^3.4.1"
   },
   "dependencies": {
-    "@preline/input-number": "^2.0.2"
+    "@preline/input-number": "^2.0.2",
+    "preline": "^2.1.0"
   }
 }
