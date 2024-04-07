@@ -156,9 +156,18 @@
                 <button x-on:click="address_{{ address.id }} = true" class="mt-2 py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
                   Edit
                 </button>
-                <button class="mt-2 py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
+                <button
+                  data-delete-address
+                  data-url="{{ address.url }}"
+                  class="mt-2 py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
                   Delete
                 </button>
+                <form method="post" action="{{ address.url }}">
+                  <input
+                    type="hidden"
+                    name="_method"
+                    value="delete">
+                </form>
               </div>
             </div>
             <div x-show="address_{{ address.id }}" class="h-full w-full fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto z-50">
@@ -293,6 +302,20 @@
         constructor() {
             this.initCustomerAddress();
             this.customerAddressesSelector();
+            this.initDeleteAddressButtons();
+        }
+        initDeleteAddressButtons() {
+            const deleteButtons = document.querySelectorAll("button[data-delete-address]");
+            if(deleteButtons.length < 1) return;
+            deleteButtons.forEach(button => {
+                button.addEventListener("click", function(e) {
+                    var url = this.dataset.url;
+                    var confirmation = window.confirm("Do you really wish to delete this address?");
+                    if(confirmation) {
+                        document.querySelector(`form[action="${url}"]`).submit();
+                    }
+                })
+            })
         }
         initCustomerAddress() {
             const allAddressesSelector = document.querySelectorAll("select[data-country-selector]");
