@@ -119,12 +119,16 @@
               value="{{ form.phone }}"
               class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
           </div>
+          <div class="flex">
+            {{ form.set_as_default_checkbox }}
+            <label for="address_default_address_{{ form.id }}" class="text-sm text-gray-500 ms-3 ">Set as default address</label>
+          </div>
           <div class="flex gap-2">
             <button type="submit" class="py-2 px-3 flex items-center justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none w-full ">
               Create address
             </button>
             <button type="reset" class="py-2 px-3 flex items-center justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none w-full ">
-              Cancel
+              Reset
             </button>
           </div>
         </div>
@@ -135,7 +139,7 @@
     {% paginate customer.addresses by 12 %}
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {% for address in customer.addresses %}
-          <div class="flex flex-col bg-white border shadow-sm rounded-xl ">
+          <div x-data="{ address_{{ address.id }}: false }" class="flex flex-col bg-white border shadow-sm rounded-xl ">
             <div class="p-4 md:p-5">
               <div class="flex gap-2">
                 <h3 class="text-lg font-bold text-gray-800 h-[28px]">
@@ -149,12 +153,132 @@
                 {{ address | format_address }}
               </div>
               <div class="flex justify-end gap-2">
-                <a class="mt-2 py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" href="#">
+                <button x-on:click="address_{{ address.id }} = true" class="mt-2 py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
                   Edit
-                </a>
-                <a class="mt-2 py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none" href="#">
+                </button>
+                <button class="mt-2 py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
                   Delete
-                </a>
+                </button>
+              </div>
+            </div>
+            <div x-show="address_{{ address.id }}" class="h-full w-full fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto z-50">
+              <div class="relative max-w-md mx-auto bg-white border top-20 p-4 rounded-lg">
+                <div class="flex items-center justify-between mb-4">
+                  <h2 class="text-lg font-medium">
+                    Edit address</h2>
+                  <button x-on:click="address_{{ address.id }} = false" class="text-gray-500 hover:text-gray-700">
+                    {% render 'icon-close' %}</button>
+                </div>
+                {% form 'customer_address'
+                  , address %}
+                  <div class="space-y-4">
+                    <div>
+                      <label for="address_fname_{{ form.id }}" class="block mb-2 text-sm text-gray-700 font-medium ">First name</label>
+                      <input
+                        type="text"
+                        name="address[first_name]"
+                        id="address_fname_{{ form.id }}"
+                        value="{{ form.first_name }}"
+                        class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                    </div>
+                    <div>
+                      <label for="address_lname_{{ form.id }}" class="block mb-2 text-sm text-gray-700 font-medium ">Last name</label>
+                      <input
+                        type="text"
+                        name="address[last_name]"
+                        id="address_lname_{{ form.id }}"
+                        value="{{ form.last_name }}"
+                        class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                    </div>
+                    <div>
+                      <label for="address_company_{{ form.id }}" class="block mb-2 text-sm text-gray-700 font-medium ">Company</label>
+                      <input
+                        type="text"
+                        name="address[company]"
+                        id="address_company_{{ form.id }}"
+                        value="{{ form.company }}"
+                        class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                    </div>
+                    <div>
+                      <label for="address_address1_{{ form.id }}" class="block mb-2 text-sm text-gray-700 font-medium ">Address 1</label>
+                      <input
+                        type="text"
+                        name="address[address1]"
+                        id="address_address1_{{ form.id }}"
+                        value="{{ form.address1 }}"
+                        class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                    </div>
+                    <div>
+                      <label for="address_address2_{{ form.id }}" class="block mb-2 text-sm text-gray-700 font-medium ">Address 2</label>
+                      <input
+                        type="text"
+                        name="address[address2]"
+                        id="address_address2_{{ form.id }}"
+                        value="{{ form.address2 }}"
+                        class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                    </div>
+                    <div>
+                      <label for="address_city_{{ form.id }}" class="block mb-2 text-sm text-gray-700 font-medium ">City</label>
+                      <input
+                        type="text"
+                        name="address[city]"
+                        id="address_city_{{ form.id }}"
+                        value="{{ form.city }}"
+                        class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                    </div>
+                    <div>
+                      <label for="address_country_{{ form.id }}" class="block mb-2 text-sm text-gray-700 font-medium ">Country</label>
+                      <select
+                        name="address[country]"
+                        id="address_country_{{ form.id }}"
+                        value="{{ form.country }}"
+                        class=" py-2 px-3 pe-9 block border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full"
+                        data-country-selector
+                        data-id="{{ form.id }}">
+                        {{ all_country_option_tags }}
+                      </select>
+                    </div>
+                    <div>
+                      <label for="address_province_{{ form.id }}" class="block mb-2 text-sm text-gray-700 font-medium ">Province</label>
+                      <select
+                        name="address[province]"
+                        id="address_province_{{ form.id }}"
+                        value="{{ form.province }}"
+                        class=" py-2 px-3 pe-9 block border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full"></select>
+                    </div>
+                    <div>
+                      <label for="address_zip_{{ form.id }}" class="block mb-2 text-sm text-gray-700 font-medium ">Postal/ZIP code</label>
+                      <input
+                        type="text"
+                        name="address[zip]"
+                        id="address_zip_{{ form.id }}"
+                        value="{{ form.zip }}"
+                        class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                    </div>
+                    <div>
+                      <label for="address_phone_{{ form.id }}" class="block mb-2 text-sm text-gray-700 font-medium ">Phone number</label>
+                      <input
+                        type="tel"
+                        name="address[phone]"
+                        id="address_phone_{{ form.id }}"
+                        value="{{ form.phone }}"
+                        class="py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                    </div>
+                    <div class="flex">
+                      {{ form.set_as_default_checkbox }}
+                      <label for="address_default_address_{{ form.id }}" class="text-sm text-gray-500 ms-3 ">Set as default address</label>
+                    </div>
+
+                    <div class="flex gap-2">
+                      <button type="submit" class="py-2 px-3 flex items-center justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none w-full ">
+                        Save address
+                      </button>
+                      <button type="reset" class="py-2 px-3 flex items-center justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none w-full ">
+                        Reset
+                      </button>
+                    </div>
+                  </div>
+                {% endform %}
               </div>
             </div>
           </div>
@@ -189,9 +313,9 @@
                 var options = '';
                 for(var index = 0; index < arrayOfProvince.length; index++) {
                     if(arrayOfProvince[index][0] === provinceSelector.getAttribute('value')) {
-                        options += `<option value="${arrayOfProvince[i][0]}" selected>${arrayOfProvince[index][0]}</option>`;
+                        options += `<option value="${arrayOfProvince[index][0]}" selected>${arrayOfProvince[index][0]}</option>`;
                     } else {
-                        options += `<option value="${arrayOfProvince[i][0]}">${arrayOfProvince[index][0]}</option>`;
+                        options += `<option value="${arrayOfProvince[index][0]}">${arrayOfProvince[index][0]}</option>`;
                     }
                 }
                 provinceSelector.innerHTML = options;
