@@ -1,0 +1,68 @@
+<div class="w-full max-w-md mx-auto p-6">
+  <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm ">
+    <div class="p-4 sm:p-7">
+      <div class="text-center">
+        <h1 class="block text-2xl font-bold text-gray-800 ">Activate account</h1>
+        <p class="mt-2 text-center">
+          Create your password to activate your account</p>
+      </div>
+      <div class="mt-5">
+        <!-- Form -->
+        {% form 'activate_customer_password'
+          , id: 'activate_account_form' %}
+          {% if form.errors %}
+            <div class="bg-red-50 border border-red-200 text-sm text-red-800 rounded-lg p-4 my-4" role="alert">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  {% render 'icon-failed' %}
+                </div>
+                <div class="ms-4">
+                  <h3 class="text-sm font-semibold">
+                    {{ form.errors | default_errors }}
+                  </h3>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+          <div class="grid gap-y-4">
+            <!-- Form Group -->
+            <div>
+              <label for="password" class="block text-sm mb-2 ">Password</label>
+              <div class="relative">
+                <input
+                  type="password"
+                  id="password"
+                  name="customer[password]"
+                  autocomplete="new_password"
+                  class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none ">
+              </div>
+            </div>
+            <!-- End Form Group -->
+            <!-- Form Group -->
+            <div>
+              <label for="confirm_password" class="block text-sm mb-2 ">Confirm password</label>
+              <div class="relative">
+                <input
+                  type="password"
+                  id="confirm_password"
+                  name="customer[password_confirmation]"
+                  autocomplete="new_password"
+                  class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none ">
+              </div>
+            </div>
+            <!-- End Form Group -->
+            <div class="flex gap-4 flex-col sm:flex-row">
+              <button type="submit" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none ">Activate Account</button>
+              <button
+                type="submit"
+                name="decline"
+                class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none ">Decline Invitation</button>
+            </div>
+
+          </div>
+        {% endform %}
+      <!-- End Form -->
+      </div>
+    </div>
+  </div>
+</div>
