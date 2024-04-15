@@ -3,7 +3,7 @@
     <a href="{{ product.url }}">
       {% if product.featured_image %}
         <img
-          class="transition duration-1000 ease-in-out hover:scale-105 transform "
+          class="transition duration-1000 ease-in-out hover:scale-105 transform z-0"
           src="{{ product.featured_image |  image_url: width:500, height:500  }}"
           alt="{{ product.featured_image.alt }}"
           width="500"
