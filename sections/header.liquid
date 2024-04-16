@@ -1,597 +1,660 @@
 {% assign main_menu_linklist = linklists[section.settings.menu].links %}
-{%  comment  %}
-  <div
+
+<div
   class="relative bg-white"
   x-data="{ mobileMenuOpen: false, searchBarOpen: false }"
-  x-cloak>
+  x-cloak
+>
   <div class="mx-auto px-4 sm:px-6">
-  <div class="flex justify-between items-center py-6 md:justify-start md:space-x-10">
-  <!-- STORE NAME / STORE LOGO -->
-  <div class="flex justify-start lg:flex-1 truncate">
-  <h1 class="text-xl font-bold truncate">{{ shop.name }}</h1>
-  </div>
-  <div class="-mr-2 -my-2 ml-3 md:hidden">
-  <button
-  x-on:click="mobileMenuOpen = true"
-  type="button"
-  class="bg-white p-2 inline-flex items-center justify-center focus:outline-none">
-  {% render 'icon-menu' %}
-  </button>
-  </div>
-  <!-- NAVIGATION MENU -->
-  <!--
-  x-data ve x-on alpeni.js için kullanılıyor. Drop down için
-  event listener ekliyor. Daha sonra jquery veya düz javascript ile değiştirilecek.
-  -->
-  <nav x-data="{open: false}" class="hidden md:flex space-x-10">
-  {% for link in main_menu_linklist %}
-  {% if link.links != blank %}
-
-  <button
-  x-on:click="open = ! open"
-  type="button"
-  class="inline-flex items-center text-base text-gray-500 hover:text-gray-900">
-  {{ link.title }}
-  {% render 'icon-dropdown' %}
-  </button>
-  <div
-  x-show="open"
-  @click.away="open = false"
-  class="absolute z-10 -ml-5 mt-5 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
-  <div class="shadow-lg border ring-black ring-opacity-5 overflow-hidden rounded-lg">
-  <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-  {% for childlink in link.links %}
-  <a href="{{ childlink.url }}" class="-m-3 p-3 flex items start rounded-lg hover:bg-gray-100">
-  <div class="ml-4">
-  <p class="text-gray-900 text-base font-medium">
-  {{ childlink.title }}
-  </p>
-  </div>
-  </a>
-  {% endfor %}
-  </div>
-  </div>
-  </div>{% else %}
-  <div class="relative">
-  <a href="{{ link.url }}" class="text-base text-gray-500 hover:text-gray-900">{{ link.title }}</a>
-  </div>{% endif -%}{% endfor %}</nav><div class="hidden md:flex items-center justify-end md:flex-1 space-x-5">
-  <button
-  x-on:click="searchBarOpen = true"
-  type="button"
-  class="whitespace-nowrap text-base text-gray-500 hover: text-gray-900">
-  {% render 'icon-search' %}
-  </button>
-  <!-- routes object return standart pages urls lie card, account, register etc. -->
-  <a href="{{ routes.cart_url }}" class="whitespace-nowrap text-base text-gray-500 hover:text-gray-900">
-  {% render 'icon-shopping-bag' %}
-  </a>
-  {% if shop.customer_accounts_enabled %}
-  <a href="{{ routes.account_login_url}}" class="text-base text-gray-500 hover:text-gray-900">Login</a>
-  <a href="{{ routes.account_register_url }}" class="text-base text-gray-500 hover:text-gray-900">
-  Register
-  </a>
-  {% endif %}</div></div></div><div x-show="mobileMenuOpen" class="absolute z-10 top-0 inset-x-0 p-2 transform origin-top-left md:hidden">
-  <div class="shadow-lg rounded-lg ring-1 ring-black ring-opacity-5 bg-white w-full">
-  <div class="p-5 divide-y-2 divide-gray-50">
-  <!-- MOBILE MENU HEADER TITLE PLUS CLOSE BUTTON -->
-  <div class="flex items-center justify-between pb-3">
-  <div>
-  <!-- The tite come from the scema -->
-  <h1 class="text-lg text-gray-500">{{ section.settings.mobile_menu_title }}</h1>
-  </div>
-  <div class="-mr-2">
-  <button
-  x-on:click="mobileMenuOpen = false"
-  type="button"
-  class="bg-white rounded-md p-2 text-gray-500">
-  {% render 'icon-close' %}
-  </button>
-  </div>
-  </div>
-
-  <!-- NAVIGATION LINKS FOR MOBILE MENU -->
-  <div class="pt-3">
-  <nav class="grid gap-y-7">
-  {% for link in main_menu_linklist %}
-  {% if link.links != blank %}
-  <button type="button" class="text-base text-gray-500 hover:text-gray-900 flex items-center justify-between w-full">
-  <div>{{ link.title }}</div>
-  {% render 'icon-dropdown' %}
-  </button>
-
-  {% for childlink in link.links %}
-  <div class="grid gap-y-7 py-3">
-  <a href="#" class="-m-3 p-3 mt-2 flex items-center rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-50">
-  <span class="ml-3 text-base font-medium text-gray-500">
-  {{ childlink.title }}</span>
-  </a>
-  </div>
-  {% endfor %}
-  {% else %}
-  <a href="#" class="-m-3 p-3 flex items-center rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-50">
-  {{ link.title }}
-  </a>
-  {% endif %}
-  {% endfor %}
-  </nav>
-  </div>
-  </div>
-  </div></div><div x-show="searchBarOpen" class="w-full absolute top-0 bg-white border">
-  <button
-  type="button"
-  x-on:click="searchBarOpen = false"
-  class="absolute top-0 right-0 mr-5 mt-5 text-gray-500">
-  {% render 'icon-close' %}
-  </button>
-  <div class="h-40 flex justify-center items-center">
-  <form action="{{ routes.search_url }}" method="get">
-  <div class="relative text-gray-500 px-10">
-  <input
-  type="search"
-  name="q"
-  placeholder="Search"
-  class="w-full bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none" />
-  <button type="submit" class="absolute right-0 top-0 mt-2 mr-2 md:mr-20">
-  {% render 'icon-search' %}
-  </button>
-  </div>
-  </form>
-  </div></div></div>
-{% endcomment %}
-
-<script>
-window.Components = window.Components ?? {}
-window.Components['tabs'] = function anonymous(
-) {
-return function tabs() {
-  return {
-    selectedIndex: 0,
-    onTabClick(event) {
-      if (!this.$el.contains(event.detail)) return
-
-      let tabs = Array.from(this.$el.querySelectorAll('[x-data^="Components.tab("]'))
-      let panels = Array.from(this.$el.querySelectorAll('[x-data^="Components.tabPanel("]'))
-
-      let idx = tabs.indexOf(event.detail)
-      this.selectedIndex = idx
-
-      window.dispatchEvent(
-        new CustomEvent('tab-select', {
-          detail: {
-            tab: event.detail,
-            panel: panels[idx],
-          },
-        })
-      )
-    },
-    onTabKeydown(event) {
-      if (!this.$el.contains(event.detail.tab)) return
-
-      let tabs = Array.from(this.$el.querySelectorAll('[x-data^="Components.tab("]'))
-      let tabIndex = tabs.indexOf(event.detail.tab)
-
-      if (event.detail.key === 'ArrowLeft') {
-        this.onTabClick({ detail: tabs[(tabIndex - 1 + tabs.length) % tabs.length] })
-      } else if (event.detail.key === 'ArrowRight') {
-        this.onTabClick({ detail: tabs[(tabIndex + 1) % tabs.length] })
-      } else if (event.detail.key === 'Home' || event.detail.key === 'PageUp') {
-        this.onTabClick({ detail: tabs[0] })
-      } else if (event.detail.key === 'End' || event.detail.key === 'PageDown') {
-        this.onTabClick({ detail: tabs[tabs.length - 1] })
-      }
-    },
-  }
-};
-}()
-;
-window.Components = window.Components ?? {}
-window.Components['tab'] = function anonymous(
-) {
-return function tab(defaultIndex = 0) {
-  return {
-    selected: false,
-    init() {
-      let tabs = Array.from(
-        this.$el
-          .closest('[x-data^="Components.tabs("]')
-          .querySelectorAll('[x-data^="Components.tab("]')
-      )
-      this.selected = tabs.indexOf(this.$el) === defaultIndex
-      this.$watch('selected', (selected) => {
-        if (selected) {
-          this.$el.focus()
-        }
-      })
-    },
-    onClick() {
-      window.dispatchEvent(
-        new CustomEvent('tab-click', {
-          detail: this.$el,
-        })
-      )
-    },
-    onKeydown(event) {
-      if (['ArrowLeft', 'ArrowRight', 'Home', 'PageUp', 'End', 'PageDown'].includes(event.key)) {
-        event.preventDefault()
-      }
-
-      window.dispatchEvent(
-        new CustomEvent('tab-keydown', {
-          detail: {
-            tab: this.$el,
-            key: event.key,
-          },
-        })
-      )
-    },
-    onTabSelect(event) {
-      this.selected = event.detail.tab === this.$el
-    },
-  }
-};
-}()
-;
-window.Components = window.Components ?? {}
-window.Components['tab'] = function anonymous(
-) {
-return function tab(defaultIndex = 0) {
-  return {
-    selected: false,
-    init() {
-      let tabs = Array.from(
-        this.$el
-          .closest('[x-data^="Components.tabs("]')
-          .querySelectorAll('[x-data^="Components.tab("]')
-      )
-      this.selected = tabs.indexOf(this.$el) === defaultIndex
-      this.$watch('selected', (selected) => {
-        if (selected) {
-          this.$el.focus()
-        }
-      })
-    },
-    onClick() {
-      window.dispatchEvent(
-        new CustomEvent('tab-click', {
-          detail: this.$el,
-        })
-      )
-    },
-    onKeydown(event) {
-      if (['ArrowLeft', 'ArrowRight', 'Home', 'PageUp', 'End', 'PageDown'].includes(event.key)) {
-        event.preventDefault()
-      }
-
-      window.dispatchEvent(
-        new CustomEvent('tab-keydown', {
-          detail: {
-            tab: this.$el,
-            key: event.key,
-          },
-        })
-      )
-    },
-    onTabSelect(event) {
-      this.selected = event.detail.tab === this.$el
-    },
-  }
-};
-}()
-;
-window.Components = window.Components ?? {}
-window.Components['tabPanel'] = function anonymous(
-) {
-return function tabPanel(defaultIndex = 0) {
-  return {
-    selected: false,
-    init() {
-      let panels = Array.from(
-        this.$el
-          .closest('[x-data^="Components.tabs("]')
-          .querySelectorAll('[x-data^="Components.tabPanel("]')
-      )
-      this.selected = panels.indexOf(this.$el) === defaultIndex
-    },
-    onTabSelect(event) {
-      this.selected = event.detail.panel === this.$el
-    },
-  }
-};
-}()
-;
-window.Components = window.Components ?? {}
-window.Components['tabPanel'] = function anonymous(
-) {
-return function tabPanel(defaultIndex = 0) {
-  return {
-    selected: false,
-    init() {
-      let panels = Array.from(
-        this.$el
-          .closest('[x-data^="Components.tabs("]')
-          .querySelectorAll('[x-data^="Components.tabPanel("]')
-      )
-      this.selected = panels.indexOf(this.$el) === defaultIndex
-    },
-    onTabSelect(event) {
-      this.selected = event.detail.panel === this.$el
-    },
-  }
-};
-}()
-;
-window.Components = window.Components ?? {}
-window.Components['popoverGroup'] = function anonymous(
-) {
-return function popoverGroup() {
-  return {
-    __type: 'popoverGroup',
-    init() {
-      let handler = (e) => {
-        if (!document.body.contains(this.$el)) {
-          window.removeEventListener('focus', handler, true)
-          return
-        }
-        if (e.target instanceof Element && !this.$el.contains(e.target)) {
-          window.dispatchEvent(
-            new CustomEvent('close-popover-group', {
-              detail: this.$el,
-            })
-          )
-        }
-      }
-      window.addEventListener('focus', handler, true)
-    },
-  }
-};
-}()
-;
-window.Components = window.Components ?? {}
-window.Components['popover'] = function anonymous(
-) {
-return function popover({ open = false, focus = false } = {}) {
-  const focusableSelector = [
-    '[contentEditable=true]',
-    '[tabindex]',
-    'a[href]',
-    'area[href]',
-    'button:not([disabled])',
-    'iframe',
-    'input:not([disabled])',
-    'select:not([disabled])',
-    'textarea:not([disabled])',
-  ]
-    .map((selector) => `${selector}:not([tabindex='-1'])`)
-    .join(',')
-
-  function focusFirst(container) {
-    const focusableElements = Array.from(container.querySelectorAll(focusableSelector))
-
-    function tryFocus(element) {
-      if (element === undefined) return
-
-      element.focus({ preventScroll: true })
-
-      if (document.activeElement !== element) {
-        tryFocus(focusableElements[focusableElements.indexOf(element) + 1])
-      }
-    }
-
-    tryFocus(focusableElements[0])
-  }
-
-  return {
-    __type: 'popover',
-    open,
-    init() {
-      if (focus) {
-        this.$watch('open', (open) => {
-          if (open) {
-            this.$nextTick(() => {
-              focusFirst(this.$refs.panel)
-            })
-          }
-        })
-      }
-
-      let handler = (e) => {
-        if (!document.body.contains(this.$el)) {
-          window.removeEventListener('focus', handler, true)
-          return
-        }
-        let ref = focus ? this.$refs.panel : this.$el
-        if (this.open && e.target instanceof Element && !ref.contains(e.target)) {
-          let node = this.$el
-          while (node.parentNode) {
-            node = node.parentNode
-            if (node.__x instanceof this.constructor) {
-              if (node.__x.$data.__type === 'popoverGroup') return
-              if (node.__x.$data.__type === 'popover') break
-            }
-          }
-          this.open = false
-        }
-      }
-
-      window.addEventListener('focus', handler, true)
-    },
-    onEscape() {
-      this.open = false
-      if (this.restoreEl) {
-        this.restoreEl.focus()
-      }
-    },
-    onClosePopoverGroup(e) {
-      if (e.detail.contains(this.$el)) {
-        this.open = false
-      }
-    },
-    toggle(e) {
-      this.open = !this.open
-      if (this.open) {
-        this.restoreEl = e.currentTarget
-      } else if (this.restoreEl) {
-        this.restoreEl.focus()
-      }
-    },
-  }
-};
-}()
-;
-window.Components = window.Components ?? {}
-window.Components['popover'] = function anonymous(
-) {
-return function popover({ open = false, focus = false } = {}) {
-  const focusableSelector = [
-    '[contentEditable=true]',
-    '[tabindex]',
-    'a[href]',
-    'area[href]',
-    'button:not([disabled])',
-    'iframe',
-    'input:not([disabled])',
-    'select:not([disabled])',
-    'textarea:not([disabled])',
-  ]
-    .map((selector) => `${selector}:not([tabindex='-1'])`)
-    .join(',')
-
-  function focusFirst(container) {
-    const focusableElements = Array.from(container.querySelectorAll(focusableSelector))
-
-    function tryFocus(element) {
-      if (element === undefined) return
-
-      element.focus({ preventScroll: true })
-
-      if (document.activeElement !== element) {
-        tryFocus(focusableElements[focusableElements.indexOf(element) + 1])
-      }
-    }
-
-    tryFocus(focusableElements[0])
-  }
-
-  return {
-    __type: 'popover',
-    open,
-    init() {
-      if (focus) {
-        this.$watch('open', (open) => {
-          if (open) {
-            this.$nextTick(() => {
-              focusFirst(this.$refs.panel)
-            })
-          }
-        })
-      }
-
-      let handler = (e) => {
-        if (!document.body.contains(this.$el)) {
-          window.removeEventListener('focus', handler, true)
-          return
-        }
-        let ref = focus ? this.$refs.panel : this.$el
-        if (this.open && e.target instanceof Element && !ref.contains(e.target)) {
-          let node = this.$el
-          while (node.parentNode) {
-            node = node.parentNode
-            if (node.__x instanceof this.constructor) {
-              if (node.__x.$data.__type === 'popoverGroup') return
-              if (node.__x.$data.__type === 'popover') break
-            }
-          }
-          this.open = false
-        }
-      }
-
-      window.addEventListener('focus', handler, true)
-    },
-    onEscape() {
-      this.open = false
-      if (this.restoreEl) {
-        this.restoreEl.focus()
-      }
-    },
-    onClosePopoverGroup(e) {
-      if (e.detail.contains(this.$el)) {
-        this.open = false
-      }
-    },
-    toggle(e) {
-      this.open = !this.open
-      if (this.open) {
-        this.restoreEl = e.currentTarget
-      } else if (this.restoreEl) {
-        this.restoreEl.focus()
-      }
-    },
-  }
-};
-}()
-</script>
-  <div class="bg-white">
-    
-  <div x-data="{ open: false }" @keydown.window.escape="open = false" class="bg-white">
-    <!-- Mobile menu start -->
-    
-      <div x-show="open" class="relative z-40 lg:hidden" x-ref="dialog" aria-modal="true" style="display: none;">
-        
-          <div x-show="open" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" x-description="Off-canvas menu backdrop, show/hide based on off-canvas menu state." class="fixed inset-0 bg-black bg-opacity-25" style="display: none;"></div>
-
-        <div class="fixed inset-0 z-40 flex">
-            <div x-show="open" x-transition:enter="transition ease-in-out duration-300 transform" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in-out duration-300 transform" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" x-description="Off-canvas menu, show/hide based on off-canvas menu state." class="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl" @click.away="open = false" style="display: none;">
-              <div class="flex px-4 pb-2 pt-5">
-                <button type="button" class="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400" @click="open = false">
-                  <span class="sr-only">Close menu</span>
-                  <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-                </button>
-              </div>
-              <!-- Links -->
-              <div class="space-y-6  px-4 py-6">
-                <div  x-data="{ mobileDropDown: false }" class="relative">
-                  <div class="flex justify-between " @click="mobileDropDown = !mobileDropDown">
-                    <button class="font-medium text-gray-900 block"  >
-                    Featured
-                  </button>
-                   <svg :class=" mobileDropDown && '-rotate-90' " class="h-5 w-5 text-gray-500 " viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"></path>
-                  </svg>
-                  </div>
-                  <ul x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" x-show="mobileDropDown" role="list" aria-labelledby="mobile-featured-heading-0" class="mt-4 ml-2 pl-2 space-y-4 border-l border-gray-300">
-                    <li class="flex">
-                      <a href="#" class="text-gray-500">Sleep</a>
-                    </li>
-                    <li class="flex">
-                      <a href="#" class="text-gray-500">Swimwear</a>
-                    </li>
-                    <li class="flex">
-                      <a href="#" class="text-gray-500">Underwear</a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="flow-root">
-                    <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Company</a>
-                  </div>
-                <div class="flow-root">
-                    <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Stores</a>
-                  </div>
-              </div>
-              <div class="space-y-6 border-t border-gray-200 px-4 py-6">
-                <div class="flow-root">
-                  <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Create an account</a>
-                </div>
-                <div class="flow-root">
-                  <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Sign in</a>
+    <div class="flex justify-between items-center py-6 md:justify-start md:space-x-10">
+      <!-- STORE NAME / STORE LOGO -->
+      <div class="flex justify-start lg:flex-1 truncate">
+        <h1 class="text-xl font-bold truncate">{{ shop.name }}</h1>
+      </div>
+      <div class="-mr-2 -my-2 ml-3 md:hidden">
+        <button
+          x-on:click="mobileMenuOpen = true"
+          type="button"
+          class="bg-white p-2 inline-flex items-center justify-center focus:outline-none"
+        >
+          {% render 'icon-menu' %}
+        </button>
+      </div>
+      <!-- NAVIGATION MENU -->
+      <!--
+        x-data ve x-on alpeni.js için kullanılıyor. Drop down için
+        event listener ekliyor. Daha sonra jquery veya düz javascript ile değiştirilecek.
+      -->
+      <nav x-data="{open: false}" class="hidden md:flex space-x-10">
+        {% for link in main_menu_linklist %}
+          {% if link.links != blank %}
+            <button
+              x-on:click="open = ! open"
+              type="button"
+              class="inline-flex items-center text-base text-gray-500 hover:text-gray-900"
+            >
+              {{ link.title }}
+              {% render 'icon-dropdown' %}
+            </button>
+            <div
+              x-show="open"
+              @click.away="open = false"
+              class="absolute z-10 -ml-5 mt-5 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2"
+            >
+              <div class="shadow-lg border ring-black ring-opacity-5 overflow-hidden rounded-lg">
+                <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                  {% for childlink in link.links %}
+                    <a href="{{ childlink.url }}" class="-m-3 p-3 flex items start rounded-lg hover:bg-gray-100">
+                      <div class="ml-4">
+                        <p class="text-gray-900 text-base font-medium">
+                          {{ childlink.title }}
+                        </p>
+                      </div>
+                    </a>
+                  {% endfor %}
                 </div>
               </div>
             </div>
+          {% else %}
+            <div class="relative">
+              <a href="{{ link.url }}" class="text-base text-gray-500 hover:text-gray-900">{{ link.title }}</a>
+            </div>
+          {% endif -%}
+        {% endfor %}
+      </nav>
+      <div class="hidden md:flex items-center justify-end md:flex-1 space-x-5">
+        <button
+          x-on:click="searchBarOpen = true"
+          type="button"
+          class="whitespace-nowrap text-base text-gray-500 hover: text-gray-900"
+        >
+          {% render 'icon-search' %}
+        </button>
+        <!-- routes object return standart pages urls lie card, account, register etc. -->
+        <a href="{{ routes.cart_url }}" class="whitespace-nowrap text-base text-gray-500 hover:text-gray-900">
+          {% render 'icon-shopping-bag' %}
+        </a>
+        {% if shop.customer_accounts_enabled %}
+          <a href="{{ routes.account_login_url}}" class="text-base text-gray-500 hover:text-gray-900">Login</a>
+          <a href="{{ routes.account_register_url }}" class="text-base text-gray-500 hover:text-gray-900"> Register </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div x-show="mobileMenuOpen" class="absolute z-10 top-0 inset-x-0 p-2 transform origin-top-left md:hidden">
+    <div class="shadow-lg rounded-lg ring-1 ring-black ring-opacity-5 bg-white w-full">
+      <div class="p-5 divide-y-2 divide-gray-50">
+        <!-- MOBILE MENU HEADER TITLE PLUS CLOSE BUTTON -->
+        <div class="flex items-center justify-between pb-3">
+          <div>
+            <!-- The tite come from the scema -->
+            <h1 class="text-lg text-gray-500">{{ section.settings.mobile_menu_title }}</h1>
+          </div>
+          <div class="-mr-2">
+            <button
+              x-on:click="mobileMenuOpen = false"
+              type="button"
+              class="bg-white rounded-md p-2 text-gray-500"
+            >
+              {% render 'icon-close' %}
+            </button>
+          </div>
+        </div>
+
+        <!-- NAVIGATION LINKS FOR MOBILE MENU -->
+        <div class="pt-3">
+          <nav class="grid gap-y-7">
+            {% for link in main_menu_linklist %}
+              {% if link.links != blank %}
+                <button
+                  type="button"
+                  class="text-base text-gray-500 hover:text-gray-900 flex items-center justify-between w-full"
+                >
+                  <div>{{ link.title }}</div>
+                  {% render 'icon-dropdown' %}
+                </button>
+
+                {% for childlink in link.links %}
+                  <div class="grid gap-y-7 py-3">
+                    <a
+                      href="#"
+                      class="-m-3 p-3 mt-2 flex items-center rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                    >
+                      <span class="ml-3 text-base font-medium text-gray-500"> {{ childlink.title }}</span>
+                    </a>
+                  </div>
+                {% endfor %}
+              {% else %}
+                <a
+                  href="#"
+                  class="-m-3 p-3 flex items-center rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                >
+                  {{ link.title }}
+                </a>
+              {% endif %}
+            {% endfor %}
+          </nav>
         </div>
       </div>
-<!-- Mobile menu end -->
-   <!-- Desktop menu start-->
+    </div>
+  </div>
+  <div x-show="searchBarOpen" class="w-full absolute top-0 bg-white border">
+    <button
+      type="button"
+      x-on:click="searchBarOpen = false"
+      class="absolute top-0 right-0 mr-5 mt-5 text-gray-500"
+    >
+      {% render 'icon-close' %}
+    </button>
+    <div class="h-40 flex justify-center items-center">
+      <form action="{{ routes.search_url }}" method="get">
+        <div class="relative text-gray-500 px-10">
+          <input
+            type="search"
+            name="q"
+            placeholder="Search"
+            class="w-full bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
+          >
+          <button type="submit" class="absolute right-0 top-0 mt-2 mr-2 md:mr-20">
+            {% render 'icon-search' %}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.Components = window.Components ?? {};
+  window.Components['tabs'] = (function anonymous() {
+    return function tabs() {
+      return {
+        selectedIndex: 0,
+        onTabClick(event) {
+          if (!this.$el.contains(event.detail)) return;
+
+          let tabs = Array.from(this.$el.querySelectorAll('[x-data^="Components.tab("]'));
+          let panels = Array.from(this.$el.querySelectorAll('[x-data^="Components.tabPanel("]'));
+
+          let idx = tabs.indexOf(event.detail);
+          this.selectedIndex = idx;
+
+          window.dispatchEvent(
+            new CustomEvent('tab-select', {
+              detail: {
+                tab: event.detail,
+                panel: panels[idx],
+              },
+            })
+          );
+        },
+        onTabKeydown(event) {
+          if (!this.$el.contains(event.detail.tab)) return;
+
+          let tabs = Array.from(this.$el.querySelectorAll('[x-data^="Components.tab("]'));
+          let tabIndex = tabs.indexOf(event.detail.tab);
+
+          if (event.detail.key === 'ArrowLeft') {
+            this.onTabClick({ detail: tabs[(tabIndex - 1 + tabs.length) % tabs.length] });
+          } else if (event.detail.key === 'ArrowRight') {
+            this.onTabClick({ detail: tabs[(tabIndex + 1) % tabs.length] });
+          } else if (event.detail.key === 'Home' || event.detail.key === 'PageUp') {
+            this.onTabClick({ detail: tabs[0] });
+          } else if (event.detail.key === 'End' || event.detail.key === 'PageDown') {
+            this.onTabClick({ detail: tabs[tabs.length - 1] });
+          }
+        },
+      };
+    };
+  })();
+  window.Components = window.Components ?? {};
+  window.Components['tab'] = (function anonymous() {
+    return function tab(defaultIndex = 0) {
+      return {
+        selected: false,
+        init() {
+          let tabs = Array.from(
+            this.$el.closest('[x-data^="Components.tabs("]').querySelectorAll('[x-data^="Components.tab("]')
+          );
+          this.selected = tabs.indexOf(this.$el) === defaultIndex;
+          this.$watch('selected', (selected) => {
+            if (selected) {
+              this.$el.focus();
+            }
+          });
+        },
+        onClick() {
+          window.dispatchEvent(
+            new CustomEvent('tab-click', {
+              detail: this.$el,
+            })
+          );
+        },
+        onKeydown(event) {
+          if (['ArrowLeft', 'ArrowRight', 'Home', 'PageUp', 'End', 'PageDown'].includes(event.key)) {
+            event.preventDefault();
+          }
+
+          window.dispatchEvent(
+            new CustomEvent('tab-keydown', {
+              detail: {
+                tab: this.$el,
+                key: event.key,
+              },
+            })
+          );
+        },
+        onTabSelect(event) {
+          this.selected = event.detail.tab === this.$el;
+        },
+      };
+    };
+  })();
+  window.Components = window.Components ?? {};
+  window.Components['tab'] = (function anonymous() {
+    return function tab(defaultIndex = 0) {
+      return {
+        selected: false,
+        init() {
+          let tabs = Array.from(
+            this.$el.closest('[x-data^="Components.tabs("]').querySelectorAll('[x-data^="Components.tab("]')
+          );
+          this.selected = tabs.indexOf(this.$el) === defaultIndex;
+          this.$watch('selected', (selected) => {
+            if (selected) {
+              this.$el.focus();
+            }
+          });
+        },
+        onClick() {
+          window.dispatchEvent(
+            new CustomEvent('tab-click', {
+              detail: this.$el,
+            })
+          );
+        },
+        onKeydown(event) {
+          if (['ArrowLeft', 'ArrowRight', 'Home', 'PageUp', 'End', 'PageDown'].includes(event.key)) {
+            event.preventDefault();
+          }
+
+          window.dispatchEvent(
+            new CustomEvent('tab-keydown', {
+              detail: {
+                tab: this.$el,
+                key: event.key,
+              },
+            })
+          );
+        },
+        onTabSelect(event) {
+          this.selected = event.detail.tab === this.$el;
+        },
+      };
+    };
+  })();
+  window.Components = window.Components ?? {};
+  window.Components['tabPanel'] = (function anonymous() {
+    return function tabPanel(defaultIndex = 0) {
+      return {
+        selected: false,
+        init() {
+          let panels = Array.from(
+            this.$el.closest('[x-data^="Components.tabs("]').querySelectorAll('[x-data^="Components.tabPanel("]')
+          );
+          this.selected = panels.indexOf(this.$el) === defaultIndex;
+        },
+        onTabSelect(event) {
+          this.selected = event.detail.panel === this.$el;
+        },
+      };
+    };
+  })();
+  window.Components = window.Components ?? {};
+  window.Components['tabPanel'] = (function anonymous() {
+    return function tabPanel(defaultIndex = 0) {
+      return {
+        selected: false,
+        init() {
+          let panels = Array.from(
+            this.$el.closest('[x-data^="Components.tabs("]').querySelectorAll('[x-data^="Components.tabPanel("]')
+          );
+          this.selected = panels.indexOf(this.$el) === defaultIndex;
+        },
+        onTabSelect(event) {
+          this.selected = event.detail.panel === this.$el;
+        },
+      };
+    };
+  })();
+  window.Components = window.Components ?? {};
+  window.Components['popoverGroup'] = (function anonymous() {
+    return function popoverGroup() {
+      return {
+        __type: 'popoverGroup',
+        init() {
+          let handler = (e) => {
+            if (!document.body.contains(this.$el)) {
+              window.removeEventListener('focus', handler, true);
+              return;
+            }
+            if (e.target instanceof Element && !this.$el.contains(e.target)) {
+              window.dispatchEvent(
+                new CustomEvent('close-popover-group', {
+                  detail: this.$el,
+                })
+              );
+            }
+          };
+          window.addEventListener('focus', handler, true);
+        },
+      };
+    };
+  })();
+  window.Components = window.Components ?? {};
+  window.Components['popover'] = (function anonymous() {
+    return function popover({ open = false, focus = false } = {}) {
+      const focusableSelector = [
+        '[contentEditable=true]',
+        '[tabindex]',
+        'a[href]',
+        'area[href]',
+        'button:not([disabled])',
+        'iframe',
+        'input:not([disabled])',
+        'select:not([disabled])',
+        'textarea:not([disabled])',
+      ]
+        .map((selector) => `${selector}:not([tabindex='-1'])`)
+        .join(',');
+
+      function focusFirst(container) {
+        const focusableElements = Array.from(container.querySelectorAll(focusableSelector));
+
+        function tryFocus(element) {
+          if (element === undefined) return;
+
+          element.focus({ preventScroll: true });
+
+          if (document.activeElement !== element) {
+            tryFocus(focusableElements[focusableElements.indexOf(element) + 1]);
+          }
+        }
+
+        tryFocus(focusableElements[0]);
+      }
+
+      return {
+        __type: 'popover',
+        open,
+        init() {
+          if (focus) {
+            this.$watch('open', (open) => {
+              if (open) {
+                this.$nextTick(() => {
+                  focusFirst(this.$refs.panel);
+                });
+              }
+            });
+          }
+
+          let handler = (e) => {
+            if (!document.body.contains(this.$el)) {
+              window.removeEventListener('focus', handler, true);
+              return;
+            }
+            let ref = focus ? this.$refs.panel : this.$el;
+            if (this.open && e.target instanceof Element && !ref.contains(e.target)) {
+              let node = this.$el;
+              while (node.parentNode) {
+                node = node.parentNode;
+                if (node.__x instanceof this.constructor) {
+                  if (node.__x.$data.__type === 'popoverGroup') return;
+                  if (node.__x.$data.__type === 'popover') break;
+                }
+              }
+              this.open = false;
+            }
+          };
+
+          window.addEventListener('focus', handler, true);
+        },
+        onEscape() {
+          this.open = false;
+          if (this.restoreEl) {
+            this.restoreEl.focus();
+          }
+        },
+        onClosePopoverGroup(e) {
+          if (e.detail.contains(this.$el)) {
+            this.open = false;
+          }
+        },
+        toggle(e) {
+          this.open = !this.open;
+          if (this.open) {
+            this.restoreEl = e.currentTarget;
+          } else if (this.restoreEl) {
+            this.restoreEl.focus();
+          }
+        },
+      };
+    };
+  })();
+  window.Components = window.Components ?? {};
+  window.Components['popover'] = (function anonymous() {
+    return function popover({ open = false, focus = false } = {}) {
+      const focusableSelector = [
+        '[contentEditable=true]',
+        '[tabindex]',
+        'a[href]',
+        'area[href]',
+        'button:not([disabled])',
+        'iframe',
+        'input:not([disabled])',
+        'select:not([disabled])',
+        'textarea:not([disabled])',
+      ]
+        .map((selector) => `${selector}:not([tabindex='-1'])`)
+        .join(',');
+
+      function focusFirst(container) {
+        const focusableElements = Array.from(container.querySelectorAll(focusableSelector));
+
+        function tryFocus(element) {
+          if (element === undefined) return;
+
+          element.focus({ preventScroll: true });
+
+          if (document.activeElement !== element) {
+            tryFocus(focusableElements[focusableElements.indexOf(element) + 1]);
+          }
+        }
+
+        tryFocus(focusableElements[0]);
+      }
+
+      return {
+        __type: 'popover',
+        open,
+        init() {
+          if (focus) {
+            this.$watch('open', (open) => {
+              if (open) {
+                this.$nextTick(() => {
+                  focusFirst(this.$refs.panel);
+                });
+              }
+            });
+          }
+
+          let handler = (e) => {
+            if (!document.body.contains(this.$el)) {
+              window.removeEventListener('focus', handler, true);
+              return;
+            }
+            let ref = focus ? this.$refs.panel : this.$el;
+            if (this.open && e.target instanceof Element && !ref.contains(e.target)) {
+              let node = this.$el;
+              while (node.parentNode) {
+                node = node.parentNode;
+                if (node.__x instanceof this.constructor) {
+                  if (node.__x.$data.__type === 'popoverGroup') return;
+                  if (node.__x.$data.__type === 'popover') break;
+                }
+              }
+              this.open = false;
+            }
+          };
+
+          window.addEventListener('focus', handler, true);
+        },
+        onEscape() {
+          this.open = false;
+          if (this.restoreEl) {
+            this.restoreEl.focus();
+          }
+        },
+        onClosePopoverGroup(e) {
+          if (e.detail.contains(this.$el)) {
+            this.open = false;
+          }
+        },
+        toggle(e) {
+          this.open = !this.open;
+          if (this.open) {
+            this.restoreEl = e.currentTarget;
+          } else if (this.restoreEl) {
+            this.restoreEl.focus();
+          }
+        },
+      };
+    };
+  })();
+</script>
+<div class="bg-white">
+  <div x-data="{ open: false }" @keydown.window.escape="open = false" class="bg-white">
+    <!-- Mobile menu start -->
+
+    <div x-show="open" class="relative z-40 lg:hidden" x-ref="dialog" aria-modal="true" style="display: none;">
+      <div
+        x-show="open"
+        x-transition:enter="transition-opacity ease-linear duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition-opacity ease-linear duration-300"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        x-description="Off-canvas menu backdrop, show/hide based on off-canvas menu state."
+        class="fixed inset-0 bg-black bg-opacity-25"
+        style="display: none;"
+      ></div>
+
+      <div class="fixed inset-0 z-40 flex">
+        <div
+          x-show="open"
+          x-transition:enter="transition ease-in-out duration-300 transform"
+          x-transition:enter-start="-translate-x-full"
+          x-transition:enter-end="translate-x-0"
+          x-transition:leave="transition ease-in-out duration-300 transform"
+          x-transition:leave-start="translate-x-0"
+          x-transition:leave-end="-translate-x-full"
+          x-description="Off-canvas menu, show/hide based on off-canvas menu state."
+          class="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl"
+          @click.away="open = false"
+          style="display: none;"
+        >
+          <div class="flex px-4 pb-2 pt-5">
+            <button
+              type="button"
+              class="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
+              @click="open = false"
+            >
+              <span class="sr-only">Close menu</span>
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+          <!-- Links -->
+
+          <div class="space-y-6  px-4 py-6">
+            {% for link in main_menu_linklist %}
+              {% if link.links != blank %}
+                <div x-data="{ mobileDropDown: false }" class="relative">
+                  <div class="flex justify-between " @click="mobileDropDown = !mobileDropDown">
+                    <button class="font-medium text-gray-900 block">{{ link.title }}</button>
+                    <svg
+                      :class=" mobileDropDown && '-rotate-90' "
+                      class="h-5 w-5 text-gray-500 "
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"></path>
+                    </svg>
+                  </div>
+                  <ul
+                    x-transition:enter="transition-opacity ease-linear duration-300"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition-opacity ease-linear duration-300"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                    x-show="mobileDropDown"
+                    role="list"
+                    aria-labelledby="mobile-featured-heading-0"
+                    class="mt-4 ml-2 pl-2 space-y-4 border-l border-gray-300"
+                  >
+                    {% for childlink in link.links %}
+                      <li class="flex">
+                        <a href="{{ childlink.url }}" class="text-gray-500 text-sm"> {{ childlink.title }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% else %}
+                <div class="flow-root">
+                  <a href="{{ link.url }}" class="-m-2 block p-2 font-medium text-gray-900">{{ link.title }}</a>
+                </div>
+              {% endif -%}
+            {% endfor %}
+          </div>
+          <div class="space-y-6 border-t border-gray-200 px-4 py-6">
+            {% if shop.customer_accounts_enabled %}
+              {% if customer %}
+                <div class="flow-root">
+                  <a href="{{ routes.account_url}}" class="-m-2 block p-2 font-medium text-gray-900">
+                    Go to your account</a
+                  >
+                </div>
+                <div class="flow-root">
+                  <a href="{{ routes.account_logout_url}}" class="-m-2 block p-2 font-medium text-gray-900"> Log out</a>
+                </div>
+              {% else %}
+                <div class="flow-root">
+                  <a href="{{ routes.account_login_url}}" class="-m-2 block p-2 font-medium text-gray-900">Sign in</a>
+                </div>
+                <div class="flow-root">
+                  <a href="{{ routes.account_register_url }}" class="-m-2 block p-2 font-medium text-gray-900"
+                    >Create an account</a
+                  >
+                </div>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Mobile menu end -->
+    <!-- Desktop menu start -->
     <header class="relative">
       <nav aria-label="Top">
         <!-- Secondary navigation -->
@@ -603,81 +666,147 @@ return function popover({ open = false, focus = false } = {}) {
                 <div class="hidden lg:flex lg:items-center">
                   <a href="#">
                     <span class="sr-only">{{ shop.name }}</span>
-                    {{ shop.name }}
+                    <img
+                      src="{{ shop.brand.logo | image_url: width:156, height:96}}"
+                      alt="{{shop.name  }}"
+                      class="h-24 w-auto"
+                      width="96"
+                      height="156"
+                    >
                   </a>
                 </div>
                 <div class="hidden h-full lg:flex">
                   <!-- Mega menus -->
+
                   <div class="ml-8" x-data="Components.popoverGroup()" x-init="init()">
                     <div class="flex h-full justify-center space-x-8">
-                      
-                      <div class="flex" x-data="Components.popover({ open: false, focus: false })" x-init="init()" @keydown.escape="onEscape" @close-popover-group.window="onClosePopoverGroup">
-                          <div class="relative flex justify-center items-center">
-                            <button type="button" x-state:on="Item active" x-state:off="Item inactive" class="relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out border-transparent text-gray-700 hover:text-gray-800" :class="{ 'border-indigo-600 text-indigo-600': open, 'border-transparent text-gray-700 hover:text-gray-800': !(open) }" @click="toggle" @mousedown="if (open) $event.preventDefault()" aria-expanded="false" :aria-expanded="open.toString()">Men</button>
-                                <svg :class=" open && '-rotate-90' " class="h-5 w-5 text-gray-500 " viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"></path>
-                  </svg>
-                          </div>
-                            <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="absolute  top-full text-gray-500 sm:text-sm z-40" x-ref="panel" @click.away="open = false" style="display: none;">
-                           
-
+                      {% for link in main_menu_linklist %}
+                        {% if link.links != blank %}
+                          <div
+                            class="flex"
+                            x-data="Components.popover({ open: false, focus: false })"
+                            x-init="init()"
+                            @keydown.escape="onEscape"
+                            @close-popover-group.window="onClosePopoverGroup"
+                          >
+                            <div class="relative flex justify-center items-center">
+                              <button
+                                type="button"
+                                x-state:on="Item active"
+                                x-state:off="Item inactive"
+                                class="relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out border-transparent text-gray-700 hover:text-gray-800"
+                                :class="{ 'border-indigo-600 text-indigo-600': open, 'border-transparent text-gray-700 hover:text-gray-800': !(open) }"
+                                @click="toggle"
+                                @mousedown="if (open) $event.preventDefault()"
+                                aria-expanded="false"
+                                :aria-expanded="open.toString()"
+                              >
+                                {{ link.title }}
+                              </button>
+                              <svg
+                                :class=" open && '-rotate-90' "
+                                class="h-5 w-5 text-gray-500 "
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"></path>
+                              </svg>
+                            </div>
+                            <div
+                              x-show="open"
+                              x-transition:enter="transition ease-out duration-200"
+                              x-transition:enter-start="opacity-0"
+                              x-transition:enter-end="opacity-100"
+                              x-transition:leave="transition ease-in duration-150"
+                              x-transition:leave-start="opacity-100"
+                              x-transition:leave-end="opacity-0"
+                              class="absolute  top-full text-gray-500 sm:text-sm z-40"
+                              x-ref="panel"
+                              @click.away="open = false"
+                              style="display: none;"
+                            >
                               <div class=" bg-white w-64 rounded shadow-lg">
-                                <div class="  p-8">
-                                      <div>
-                                        <ul role="list" aria-labelledby="desktop-categories-heading" class=" space-y-6  sm:space-y-4 ">
-                                          <li class="flex">
-                                              <a href="#" class="hover:text-gray-800">Artwork Tees</a>
-                                            </li>
-                                          <li class="flex">
-                                              <a href="#" class="hover:text-gray-800">Pants</a>
-                                            </li>
-                                          <li class="flex">
-                                              <a href="#" class="hover:text-gray-800">Accessories</a>
-                                            </li>
-                                          <li class="flex">
-                                              <a href="#" class="hover:text-gray-800">Boxers</a>
-                                            </li>
-                                          <li class="flex">
-                                              <a href="#" class="hover:text-gray-800">Basic Tees</a>
-                                            </li>
-                                        </ul>
-                                      </div>
+                                <div class="p-4">
+                                  <div>
+                                    <ul
+                                      role="list"
+                                      aria-labelledby="desktop-categories-heading"
+                                      class=" space-y-6  sm:space-y-4 "
+                                    >
+                                      {% for childlink in link.links %}
+                                        <li class="flex">
+                                          <a href="{{ childlink.url }}" class="hover:text-gray-800">
+                                            {{ childlink.title -}}
+                                          </a>
+                                        </li>
+                                      {% endfor %}
+                                    </ul>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-
-                        </div>
-                      
-
-                      <a href="#" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Company</a>
-                      <a href="#" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Stores</a>
-                      
+                          </div>
+                        {% else %}
+                          <a
+                            href="{{ link.url }}"
+                            class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                          >
+                            {{- link.title -}}
+                          </a>
+                        {% endif %}
+                      {% endfor %}
                     </div>
                   </div>
                 </div>
 
                 <!-- Mobile menu and search (lg-) -->
                 <div class="flex flex-1 items-center lg:hidden">
-                  <button type="button" x-description="Mobile menu toggle, controls the 'mobileMenuOpen' state." class="-ml-2 rounded-md bg-white p-2 text-gray-400" @click="open = true">
+                  <button
+                    type="button"
+                    x-description="Mobile menu toggle, controls the 'mobileMenuOpen' state."
+                    class="-ml-2 rounded-md bg-white p-2 text-gray-400"
+                    @click="open = true"
+                  >
                     <span class="sr-only">Open menu</span>
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
-</svg>
+                    <svg
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                    </svg>
                   </button>
 
                   <!-- Search -->
                   <a href="#" class="ml-2 p-2 text-gray-400 hover:text-gray-500">
                     <span class="sr-only">Search</span>
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
-</svg>
+                    <svg
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
+                    </svg>
                   </a>
                 </div>
 
                 <!-- Logo (lg-) -->
                 <a href="#" class="lg:hidden">
                   <span class="sr-only">{{ shop.name }}</span>
-                {{ shop.name }}
+                  <img
+                    src="{{ shop.brand.logo | image_url: width:156, height:96}}"
+                    alt="{{shop.name  }}"
+                    class="h-24 w-auto"
+                    width="96"
+                    height="156"
+                  >
                 </a>
 
                 <div class="flex flex-1 items-center justify-end">
@@ -686,19 +815,48 @@ return function popover({ open = false, focus = false } = {}) {
                       <div class="hidden lg:flex">
                         <a href="#" class="-m-2 p-2 text-gray-400 hover:text-gray-500">
                           <span class="sr-only">Search</span>
-                          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
-</svg>
+                          <svg
+                            class="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
+                          </svg>
                         </a>
                       </div>
 
                       <div class="flex">
-                        <a href="#" class="-m-2 p-2 text-gray-400 hover:text-gray-500">
-                          <span class="sr-only">Account</span>
-                          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"></path>
-</svg>
-                        </a>
+                        {% if shop.customer_accounts_enabled %}
+                          {% if customer %}
+                            <div class="flow-root">
+                              <a href="{{ routes.account_url}}" class="-m-2 block p-2 font-medium text-gray-900">
+                                Go to your account</a
+                              >
+                            </div>
+                            <div class="flow-root">
+                              <a href="{{ routes.account_logout_url}}" class="-m-2 block p-2 font-medium text-gray-900">
+                                Log out</a
+                              >
+                            </div>
+                          {% else %}
+                            <a href="{{ routes.account_login_url}}" class="-m-2 p-2 text-gray-400 hover:text-gray-500">
+                              <span class="sr-only">Account</span>
+                              <svg
+                                class="h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                aria-hidden="true"
+                              >
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"></path>
+                              </svg>
+                            </a>
+                          {% endif %}
+                        {% endif %}
                       </div>
                     </div>
 
@@ -706,9 +864,16 @@ return function popover({ open = false, focus = false } = {}) {
 
                     <div class="flow-root">
                       <a href="#" class="group -m-2 flex items-center p-2">
-                        <svg class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"></path>
-</svg>
+                        <svg
+                          class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"></path>
+                        </svg>
                         <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
                         <span class="sr-only">items in cart, view bag</span>
                       </a>
@@ -722,31 +887,25 @@ return function popover({ open = false, focus = false } = {}) {
       </nav>
     </header>
   </div>
-
-  </div>
-
-
+</div>
 
 {% schema %}
-  {
-    "name": "Navigational Bar",
-    "settings": [
-      {
-        "type": "text",
-        "id": "mobile_menu_title",
-        "label": "Title",
-        "default": "Menu",
-        "info": "This is title of the mobile menu window"
-      }, {
-        "type": "link_list",
-        "id": "menu",
-        "label": "Header Menu",
-        "default": "main-menu"
-      }
-    ]
-  }
+{
+  "name": "Navigational Bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "mobile_menu_title",
+      "label": "Title",
+      "default": "Menu",
+      "info": "This is title of the mobile menu window"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Header Menu",
+      "default": "main-menu"
+    }
+  ]
+}
 {% endschema %}
-
-
-
-
