@@ -5,7 +5,16 @@
       "settings": {
         "featured_collection": "all"
       }
+    },
+    "hero-area": {
+      "type": "hero-area"
+    },
+    "category-preview": {
+      "type": "category-preview"
+    },
+       "main-video": {
+      "type": "main-video"
     }
   },
-  "order": ["featured-collection"]
+  "order": ["hero-area", "featured-collection", "category-preview", "main-video"]
 }
