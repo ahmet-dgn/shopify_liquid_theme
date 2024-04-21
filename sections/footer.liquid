@@ -81,10 +81,12 @@
 
     <div class="border-t border-gray-100 py-10 sm:flex sm:items-center sm:justify-between">
       <div class="flex items-center justify-center text-sm text-gray-500">
-        <p>Shipping to Canada ($CAD)</p>
-        <p class="ml-3 border-l border-gray-200 pl-3">English</p>
+        <p class="mt-6 text-center text-sm text-gray-500 sm:mt-0">&copy; <span id="year"></span> Smile, Inc.</p>
       </div>
-      <p class="mt-6 text-center text-sm text-gray-500 sm:mt-0">&copy; 2021 Your Company, Inc.</p>
     </div>
   </div>
 </footer>
+
+<script>
+  document.getElementById('year').innerHTML = new Date().getFullYear();
+</script>

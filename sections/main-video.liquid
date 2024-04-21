@@ -2,7 +2,7 @@
   <div class="mx-auto max-w-xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
     <iframe
       class="w-full"
-      src="https://player.vimeo.com/video/294328565?h=ea9235ef4b"
+      src="{{section.settings.product_description_video}}"
       width="1280"
       height="800"
       frameborder="0"
@@ -11,3 +11,17 @@
     ></iframe>
   </div>
 </div>
+
+{% schema %}
+{
+  "name": "Video",
+  "settings": [
+    {
+      "type": "video_url",
+      "id": "product_description_video",
+      "label": "Product description video",
+      "accept": ["vimeo"]
+    }
+  ]
+}
+{% endschema %}
