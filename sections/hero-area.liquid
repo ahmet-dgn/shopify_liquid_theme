@@ -3,21 +3,55 @@
     <!-- Decorative image and overlay -->
     <div aria-hidden="true" class="absolute inset-0 overflow-hidden">
       <img
-        src="https://qwstion.com/cdn/shop/files/QWSTION-tote-pale-yellow-00015.jpg?v=1710845391&width=2200"
-        alt=""
         class="h-full w-full object-cover object-center"
+        width="1980"
+        height="654"
+        src="{{ section.settings.image_with_text_image | image_url: width: 2200, height: 654  }}"
+        alt="{{ section.settings.image_with_text_image.alt }}"
       >
     </div>
     <div aria-hidden="true" class="absolute inset-0 bg-gray-900 opacity-50"></div>
 
     <div class="relative mx-auto flex max-w-3xl flex-col items-center px-6 py-32 text-center sm:py-64 lg:px-0">
-      <h1 class="text-4xl font-bold tracking-tight text-white lg:text-6xl">Carry Everything</h1>
+      <h2 class="text-4xl font-bold tracking-tight text-white lg:text-6xl">{{ section.settings.title }}</h2>
 
       <a
-        href="#"
+        href="{{ section.settings.button_url }}"
         class="mt-8 inline-block rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-gray-900 hover:bg-gray-100"
-        >Shop New Arrivals</a
       >
+        {{ section.settings.button_cta -}}
+      </a>
     </div>
   </div>
 </div>
+
+{% schema %}
+{
+  "name": "Hero Area",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Shop New Arrivals",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "button_cta",
+      "default": "Discover",
+      "label": "Button CTA Text"
+    },
+    {
+      "type": "text",
+      "id": "button_url",
+      "default": "/collections/all",
+      "label": "Button Url"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_with_text_image",
+      "label": "Image"
+    }
+  ]
+}
+{% endschema %}
