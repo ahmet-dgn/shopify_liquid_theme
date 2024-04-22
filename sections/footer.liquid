@@ -29,7 +29,10 @@
 
     <div class="border-t border-gray-100 py-10 sm:flex sm:items-center sm:justify-between">
       <div class="flex items-center justify-center text-sm text-gray-500">
-        <p class="mt-6 text-center text-sm text-gray-500 sm:mt-0">&copy;{{ 'now' | date: '%Y' }} Smile, Inc.</p>
+        <p class="mt-6 text-center text-sm text-gray-500 sm:mt-0">
+          &copy;{{ 'now' | date: '%Y' }}
+          {{ shop.name }}
+        </p>
       </div>
     </div>
   </div>
