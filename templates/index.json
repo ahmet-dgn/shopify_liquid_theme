@@ -19,6 +19,24 @@
     },
     "category-preview": {
       "type": "category-preview",
+      "blocks": {
+        "featured_collection_zVi3Dr": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "totes-shoppers"
+          }
+        },
+        "featured_collection_C7qW3V": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "packs"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_zVi3Dr",
+        "featured_collection_C7qW3V"
+      ],
       "settings": {
         "title": "Shop by Collection",
         "desc": "Designed for circularity, created from plants instead plastic."
