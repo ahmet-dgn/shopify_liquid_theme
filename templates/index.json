@@ -49,6 +49,12 @@
           "settings": {
             "collection": "bucket-bags"
           }
+        },
+        "featured_collection_EkiNdz": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "pouches"
+          }
         }
       },
       "block_order": [
@@ -56,7 +62,8 @@
         "featured_collection_C7qW3V",
         "featured_collection_iDMKLc",
         "featured_collection_m66JG6",
-        "featured_collection_nL6bEd"
+        "featured_collection_nL6bEd",
+        "featured_collection_EkiNdz"
       ],
       "settings": {
         "title": "Shop by Collection",
