@@ -15,10 +15,11 @@
         "vendor",
         "title",
         "price",
+        "description",
         "variant_selector",
         "quantity",
-        "checkout_buttons",
-        "description"
+        "checkout_buttons"
+      
       ]
     }
   },
