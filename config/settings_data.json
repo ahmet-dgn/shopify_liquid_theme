@@ -1,5 +1,34 @@
 {
   "current": {
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "mobile_menu_title": "Menu",
+          "menu": "main-menu"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "link_list_Mtd8Hm": {
+            "type": "link_list",
+            "settings": {
+              "heading": "Account",
+              "menu": "footer"
+            }
+          }
+        },
+        "block_order": [
+          "link_list_Mtd8Hm"
+        ],
+        "settings": {
+        }
+      }
+    },
+    "content_for_index": [
+
+    ]
   },
   "presets": {
     "Default": {
