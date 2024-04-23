@@ -1,20 +1,40 @@
 {
   "sections": {
+    "hero-area": {
+      "type": "hero-area",
+      "settings": {
+        "title": "Shop New Arrivals",
+        "button_cta": "Discover",
+        "button_url": "\/collections\/all",
+        "image_with_text_image": "shopify:\/\/shop_images\/QWSTION-tote-pale-yellow-00015.webp"
+      }
+    },
     "featured-collection": {
       "type": "featured-collection",
       "settings": {
-        "featured_collection": "all"
+        "title": "Featured Collection",
+        "featured_collection": "all",
+        "number_of_products_to_show": 4
       }
     },
-    "hero-area": {
-      "type": "hero-area"
-    },
     "category-preview": {
-      "type": "category-preview"
+      "type": "category-preview",
+      "settings": {
+        "title": "Shop by Collection",
+        "desc": "Designed for circularity, created from plants instead plastic."
+      }
     },
-       "main-video": {
-      "type": "main-video"
+    "main-video": {
+      "type": "main-video",
+      "settings": {
+        "product_description_video": ""
+      }
     }
   },
-  "order": ["hero-area", "featured-collection", "category-preview", "main-video"]
+  "order": [
+    "hero-area",
+    "featured-collection",
+    "category-preview",
+    "main-video"
+  ]
 }
