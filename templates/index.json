@@ -43,13 +43,20 @@
           "settings": {
             "collection": "laptop-bags"
           }
+        },
+        "featured_collection_nL6bEd": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "bucket-bags"
+          }
         }
       },
       "block_order": [
         "featured_collection_zVi3Dr",
         "featured_collection_C7qW3V",
         "featured_collection_iDMKLc",
-        "featured_collection_m66JG6"
+        "featured_collection_m66JG6",
+        "featured_collection_nL6bEd"
       ],
       "settings": {
         "title": "Shop by Collection",
