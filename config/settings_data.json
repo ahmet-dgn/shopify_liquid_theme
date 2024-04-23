@@ -17,10 +17,18 @@
               "heading": "Account",
               "menu": "footer"
             }
+          },
+          "link_list_6NCQxg": {
+            "type": "link_list",
+            "settings": {
+              "heading": "Company",
+              "menu": "company"
+            }
           }
         },
         "block_order": [
-          "link_list_Mtd8Hm"
+          "link_list_Mtd8Hm",
+          "link_list_6NCQxg"
         ],
         "settings": {
         }
