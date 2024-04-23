@@ -24,11 +24,19 @@
               "heading": "Company",
               "menu": "company"
             }
+          },
+          "link_list_Gytm84": {
+            "type": "link_list",
+            "settings": {
+              "heading": "Service",
+              "menu": "service"
+            }
           }
         },
         "block_order": [
           "link_list_Mtd8Hm",
-          "link_list_6NCQxg"
+          "link_list_6NCQxg",
+          "link_list_Gytm84"
         ],
         "settings": {
         }
