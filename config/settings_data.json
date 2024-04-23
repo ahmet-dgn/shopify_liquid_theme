@@ -31,12 +31,20 @@
               "heading": "Service",
               "menu": "service"
             }
+          },
+          "link_list_3KHX7y": {
+            "type": "link_list",
+            "settings": {
+              "heading": "Connect",
+              "menu": "connect"
+            }
           }
         },
         "block_order": [
           "link_list_Mtd8Hm",
           "link_list_6NCQxg",
-          "link_list_Gytm84"
+          "link_list_Gytm84",
+          "link_list_3KHX7y"
         ],
         "settings": {
         }
