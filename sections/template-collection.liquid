@@ -1,9 +1,9 @@
 <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
   {% paginate collection.products by section.settings.number_of_product %}
-    <h1 class="text-2xl font-bold md:text-4xl md:leading-tight w-full text-center mb-4 flex-1">
+    <h1 class="text-2xl font-bold tracking-tight text-gray-900 w-full text-center">
       {{ collection.title }}
     </h1>
-    <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
       {% for product in collection.products %}
         {% render 'product-card', product: product %}
       {% else %}
