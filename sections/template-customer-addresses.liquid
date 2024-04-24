@@ -11,10 +11,10 @@
       <button
         x-on:click="new_address = true "
         type="button"
-        class="py-2 px-3 flex items-center justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none  ">
+        class="py-2 px-3 flex items-center justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-gray-900 text-white hover:bg-gray-700disabled:opacity-50 disabled:pointer-events-none  ">
         Add new address
       </button>
-      <a href="{{ routes.account_url }}" class="py-2 px-3 flex items-center justify-center gap-x-2 text-sm font-semibold  rounded-lg border border-blue-600 text-blue-600 hover:border-blue-500 hover:text-blue-500 disabled:opacity-50 disabled:pointer-events-none  text-center">
+      <a href="{{ routes.account_url }}" class="py-2 px-3 flex items-center justify-center gap-x-2 text-sm font-semibold  rounded-lg border border-gray-900 text-gray-900 hover:border-gray-700 hover:text-gray-700 disabled:opacity-50 disabled:pointer-events-none  text-center">
         Back to account</a>
     </div>
   </div>
@@ -127,7 +127,7 @@
             <label for="address_default_address_{{ form.id }}" class="text-sm text-gray-500 ms-3 ">Set as default address</label>
           </div>
           <div class="flex gap-2">
-            <button type="submit" class="py-2 px-3 flex items-center justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none w-full ">
+            <button type="submit" class="py-2 px-3 flex items-center justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-gray-900 text-white hover:bg-gray-700disabled:opacity-50 disabled:pointer-events-none w-full ">
               Create address
             </button>
             <button type="reset" class="py-2 px-3 flex items-center justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none w-full ">
@@ -156,7 +156,7 @@
                 {{ address | format_address }}
               </div>
               <div class="flex justify-end gap-2">
-                <button x-on:click="address_{{ address.id }} = true" class="mt-2 py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                <button x-on:click="address_{{ address.id }} = true" class="mt-2 py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-gray-900 text-white hover:bg-gray-700disabled:opacity-50 disabled:pointer-events-none">
                   Edit
                 </button>
                 <button
@@ -282,7 +282,7 @@
                     </div>
 
                     <div class="flex gap-2">
-                      <button type="submit" class="py-2 px-3 flex items-center justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none w-full ">
+                      <button type="submit" class="py-2 px-3 flex items-center justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-gray-900 text-white hover:bg-gray-700disabled:opacity-50 disabled:pointer-events-none w-full ">
                         Save address
                       </button>
                       <button type="reset" class="py-2 px-3 flex items-center justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none w-full ">

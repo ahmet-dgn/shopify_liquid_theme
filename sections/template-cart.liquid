@@ -1,7 +1,7 @@
 {% if cart.item_count > 0 %}
   <div class="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
     <div class="flex items-center justify-between my-5 bg-gray-100 p-4 rounded-lg">
-      <h1 class="text-2xl font-bold md:text-3xl md:leading-tight w-full flex-1">Your Cart</h1>
+      <h1 class="text-2xl font-bold  md:leading-tight w-full flex-1">Your Cart</h1>
       <a class="w-full flex-1 sm:w-auto py-3  inline-flex justify-end items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none " href="{{ routes.all_products_collection_url }}">
         {% render 'icon-back' %}
         Continue Shopping
@@ -89,7 +89,7 @@
               <button
                 type="submit"
                 name="checkout"
-                class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none w-36 justify-center">
+                class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-gray-900 text-white hover:bg-gray-700 disabled:opacity-50 disabled:pointer-events-none w-36 justify-center">
                 Checkout
               </button>
             </div>
@@ -99,8 +99,8 @@
     </form>
   </div>
 {% else %}
-  <div class="text-center py-10 px-4 sm:px-6 lg:px-8 h-[calc(100vh-69px)] flex items-center justify-center text-center flex-col">
-    <h1 class="text-2xl font-bold md:text-4xl md:leading-tight ">Your Cart is empty</h1>
+  <div class="text-center py-10 px-4 sm:px-6 lg:px-8 h-[calc(100vh-69px)] flex items-center justify-center flex-col">
+    <h1 class="text-2xl font-bold tracking-tight text-gray-900 w-full text-center ">Your Cart is empty</h1>
     <div class="flex flex-col justify-center items-center gap-2 sm:flex-row sm:gap-3">
       <a class="w-full sm:w-auto py-3 px-4 inline-flex justify-center items-center gap-x-1 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none " href="{{ routes.all_products_collection_url }}">
         {% render 'icon-back' %}
