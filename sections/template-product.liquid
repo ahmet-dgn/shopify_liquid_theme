@@ -81,14 +81,14 @@
             {% when 'price' %}
               <div class="flex items-end flex-wrap justify-between my-6 gap-4" id="price-{{ section.id }}">
                 <div>
-                <span class="text-3xl tracking-tight text-gray-900">
-                  {{ selected_variant.price | money -}}
-                </span>
-                {% if selected_variant.price < selected_variant.compare_at_price %}
-                  <span class="text-xl tracking-tight text-gray-900 line-through ml-4">
-                    {{ selected_variant.compare_at_price | money -}}
+                  <span class="text-3xl tracking-tight text-gray-900">
+                    {{ selected_variant.price | money -}}
                   </span>
-                {% endif %}
+                  {% if selected_variant.price < selected_variant.compare_at_price %}
+                    <span class="text-xl tracking-tight text-gray-900 line-through ml-4">
+                      {{ selected_variant.compare_at_price | money -}}
+                    </span>
+                  {% endif %}
                 </div>
                 {% if selected_variant.price < selected_variant.compare_at_price %}
                   <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-100 text-red-800 "
@@ -97,7 +97,7 @@
                 {% endif %}
               </div>
             {% when 'description' %}
-              <div class="space-y-6 text-sm text-gray-600 my-6">
+              <div class="space-y-6 text-sm text-gray-500 my-6">
                 <p>
                   {{ product.description }}
                 </p>
@@ -140,10 +140,8 @@
                 {% endunless %}
               </div>
 
-            
-              {% when 'quantity' %}
-                <div class="flex flex-col items-start md:flex-row md:items-center md:gap-4 border p-4 rounded-lg bg-gray-50">
-
+            {% when 'quantity' %}
+              <div class="flex flex-col items-start md:flex-row md:items-center md:gap-4 border p-4 rounded-lg bg-gray-50">
                 <div class="my-2 md:my-4">
                   <label for="Quantity-{{ section.id }}" class="block text-sm font-medium mb-2 sr-only">Quantity</label>
                   <input
@@ -155,7 +153,6 @@
                     class="py-3 px-4 block border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-24"
                   >
                 </div>
-
             {% when 'checkout_buttons' %}
               <div class="my-2 md:my-4 flex-1 w-full">
                 <button
@@ -173,12 +170,233 @@
                   {% endif %}
                 </button>
               </div>
- </div>
+              </div>
+            {% when 'additional_details' %}
+              <section aria-labelledby="details-heading" class="mt-12">
+                <h2 id="details-heading" class="sr-only">Additional details</h2>
+                <div class="divide-y divide-gray-200 border-t">
+                  <div x-data="{Features: false }">
+                    <h3>
+                      <!-- Expand/collapse question button -->
+                      <button
+                        x-on:click="Features = !Features"
+                        type="button"
+                        class="group relative flex w-full items-center justify-between py-6 text-left"
+                        aria-controls="disclosure-1"
+                        aria-expanded="false"
+                      >
+                        <!-- Open: "text-indigo-600", Closed: "text-gray-900" -->
+                        <span
+                          class=" text-sm font-medium"
+                          :class="{ 'text-indigo-600': Features, 'text-gray-900': !(Features) }"
+                          >Features</span
+                        >
+                        <span class="ml-6 flex items-center">
+                          <!-- Open: "hidden", Closed: "block" -->
+                          <svg
+                            class="block h-6 w-6 text-gray-400 group-hover:text-gray-500"
+                            :class="{ 'hidden': Features, 'block': !(Features) }"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                          </svg>
+                          <!-- Open: "block", Closed: "hidden" -->
+                          <svg
+                            class="hidden h-6 w-6 text-indigo-400 group-hover:text-indigo-500"
+                            :class="{ 'block': Features, 'hidden': !(Features) }"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15" />
+                          </svg>
+                        </span>
+                      </button>
+                    </h3>
+                    <div class="prose prose-sm pb-6 text-sm" id="disclosure-1" x-show="Features">
+                      <ul role="list" class="text-gray-500 space-y-2 pl-4 list-disc">
+                        <li>Multiple strap configurationsa</li>
+                        <li>Spacious interior with top zip</li>
+                        <li>Leather handle and tabs</li>
+                        <li>Interior dividers</li>
+                        <li>Stainless strap loops</li>
+                        <li>Double stitched construction</li>
+                        <li>Water-resistant</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div x-data="{Care: false }">
+                    <h3>
+                      <!-- Expand/collapse question button -->
+                      <button
+                        x-on:click="Care = !Care"
+                        type="button"
+                        class="group relative flex w-full items-center justify-between py-6 text-left"
+                        aria-controls="disclosure-1"
+                        aria-expanded="false"
+                      >
+                        <!-- Open: "text-indigo-600", Closed: "text-gray-900" -->
+                        <span
+                          class=" text-sm font-medium"
+                          :class="{ 'text-indigo-600': Care, 'text-gray-900': !(Care) }"
+                          >Care</span
+                        >
+                        <span class="ml-6 flex items-center">
+                          <!-- Open: "hidden", Closed: "block" -->
+                          <svg
+                            class="block h-6 w-6 text-gray-400 group-hover:text-gray-500"
+                            :class="{ 'hidden': Care, 'block': !(Care) }"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                          </svg>
+                          <!-- Open: "block", Closed: "hidden" -->
+                          <svg
+                            class="hidden h-6 w-6 text-indigo-400 group-hover:text-indigo-500"
+                            :class="{ 'block': Care, 'hidden': !(Care) }"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15" />
+                          </svg>
+                        </span>
+                      </button>
+                    </h3>
+                    <div class="prose prose-sm pb-6 text-sm" id="disclosure-1" x-show="Care">
+                      <ul role="list" class="text-gray-500 space-y-2 pl-4 list-disc">
+                        <li>Spot clean as needed</li>
+                        <li>Hand wash with mild soap</li>
+                        <li>Machine wash interior dividers</li>
+                        <li>Treat handle and tabs with leather conditioner</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div x-data="{Shipping: false }">
+                    <h3>
+                      <!-- Expand/collapse question button -->
+                      <button
+                        x-on:click="Shipping = !Shipping"
+                        type="button"
+                        class="group relative flex w-full items-center justify-between py-6 text-left"
+                        aria-controls="disclosure-1"
+                        aria-expanded="false"
+                      >
+                        <!-- Open: "text-indigo-600", Closed: "text-gray-900" -->
+                        <span
+                          class=" text-sm font-medium"
+                          :class="{ 'text-indigo-600': Shipping, 'text-gray-900': !(Shipping) }"
+                          >Shipping</span
+                        >
+                        <span class="ml-6 flex items-center">
+                          <!-- Open: "hidden", Closed: "block" -->
+                          <svg
+                            class="block h-6 w-6 text-gray-400 group-hover:text-gray-500"
+                            :class="{ 'hidden': Shipping, 'block': !(Shipping) }"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                          </svg>
+                          <!-- Open: "block", Closed: "hidden" -->
+                          <svg
+                            class="hidden h-6 w-6 text-indigo-400 group-hover:text-indigo-500"
+                            :class="{ 'block': Shipping, 'hidden': !(Shipping) }"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15" />
+                          </svg>
+                        </span>
+                      </button>
+                    </h3>
+                    <div class="prose prose-sm pb-6 text-sm" id="disclosure-1" x-show="Shipping">
+                      <ul role="list" class="text-gray-500 space-y-2 pl-4 list-disc">
+                        <li>Free shipping on orders over $300</li>
+                        <li>International shipping available</li>
+                        <li>Expedited shipping options</li>
+                        <li>Signature required upon delivery</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div x-data="{Returns: false }">
+                    <h3>
+                      <!-- Expand/collapse question button -->
+                      <button
+                        x-on:click="Returns = !Returns"
+                        type="button"
+                        class="group relative flex w-full items-center justify-between py-6 text-left"
+                        aria-controls="disclosure-1"
+                        aria-expanded="false"
+                      >
+                        <!-- Open: "text-indigo-600", Closed: "text-gray-900" -->
+                        <span
+                          class=" text-sm font-medium"
+                          :class="{ 'text-indigo-600': Returns, 'text-gray-900': !(Returns) }"
+                          >Returns</span
+                        >
+                        <span class="ml-6 flex items-center">
+                          <!-- Open: "hidden", Closed: "block" -->
+                          <svg
+                            class="block h-6 w-6 text-gray-400 group-hover:text-gray-500"
+                            :class="{ 'hidden': Returns, 'block': !(Returns) }"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                          </svg>
+                          <!-- Open: "block", Closed: "hidden" -->
+                          <svg
+                            class="hidden h-6 w-6 text-indigo-400 group-hover:text-indigo-500"
+                            :class="{ 'block': Returns, 'hidden': !(Returns) }"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15" />
+                          </svg>
+                        </span>
+                      </button>
+                    </h3>
+                    <div class="prose prose-sm pb-6 text-sm" id="disclosure-1" x-show="Returns">
+                      <ul role="list" class="text-gray-500 space-y-2 pl-4 list-disc">
+                        <li>Easy return requests</li>
+                        <li>Pre-paid shipping label included</li>
+                        <li>10% restocking fee for returns</li>
+                        <li>60 day return window</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <!-- More sections... -->
+                </div>
+              </section>
             {% else %}
 
           {% endcase %}
         {% endfor %}
-    
       {% endform %}
     </div>
   </div>
@@ -311,6 +529,11 @@
     {
       "type": "checkout_buttons",
       "name": "Checkout Butons",
+      "limit": 1
+    },
+    {
+      "type": "additional_details",
+      "name": "Additional Details",
       "limit": 1
     }
   ]
