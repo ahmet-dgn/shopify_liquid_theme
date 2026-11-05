@@ -57,10 +57,7 @@
             {% for item in search.results %}
               {% case item.object_type %}
                 {% when 'product' %}
-                  {%
-                    render 'product-card' d
-                    , product: item
-                  %}
+                  {% render 'product-card', product: item %}
                 {% else %}
 
               {% endcase %}
@@ -74,10 +71,28 @@
       {% endif %}
     {% endif %}
 
-    {%
-      render 'pagination'
-      , pag
-      , nation: paginate
-    %}
+    {% render 'pagination', nation: paginate %}
   {% endpaginate %}
 </div>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {%
+                        render 'product-card' d
+                        , product: item
+                      %}
+  to: "{% render 'product-card', product: item %}"
+  position: 2323..2365
+- from: |-
+    {%
+          render 'pagination'
+          , pag
+          , nation: paginate
+        %}
+  to: "{% render 'pagination', nation: paginate %}"
+  position: 2624..2667
+{% endcomment %}
